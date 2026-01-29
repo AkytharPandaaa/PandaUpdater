@@ -17,6 +17,8 @@ if command -v "pacman" >/dev/null; then
     sudo pacman -Qdtq | sudo pacman --noconfirm -Sc -
     echo ""
   fi
+
+  sudo paccache -rk 2
 fi
 
 if command -v "yay" >/dev/null; then
