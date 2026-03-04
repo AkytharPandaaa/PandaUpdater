@@ -5,7 +5,7 @@ rem created by IndiePandaaaaa
 echo "PANDA UPDATER"
 echo "--- searching for updates ---"
 
-rem exclude packages which do not work
+echo "--- exclude apps which update on their own ---"
 winget pin add Apple.AppleMobileDeviceSupport >nul 2>&1
 winget pin add Apple.iTunes >nul 2>&1
 winget pin add Discord.Discord >nul 2>&1
@@ -21,7 +21,7 @@ taskkill /im "obs64.exe" /f >nul 2>&1
 taskkill /im "python.exe" /f >nul 2>&1
 
 echo "--- starting updates ---"
-winget upgrade --all --include-unknown --accept-source-agreements --accept-package-agreements --silent
+winget upgrade --source winget --all --include-unknown --accept-source-agreements --accept-package-agreements --silent
 
 echo "UPDATES FINISHED"
 pause
