@@ -2,10 +2,15 @@
 
 Simple script collection to update software using the operating system services.
 
-## Supported Systems
+## Supported OSes
 
-### [Linux](https://github.com/IndiePandaaaaa/PandaUpdater/tree/linux)
+- [Linux - PandaUpdater.sh](https://github.com/AkytharPandaaa/PandaUpdater/blob/main/PandaUpdater.sh)
+- [Windows - PandaUpdater.bat](https://github.com/AkytharPandaaa/PandaUpdater/blob/main/PandaUpdater.bat)
 
-### [Windows](https://github.com/IndiePandaaaaa/PandaUpdater/tree/windows)
+## Previous branches
 
-> Requires the Microsoft Store to be activated.
+> The branches stay for compatibility reasons
+
+### [Linux](https://github.com/AkytharPandaaa/PandaUpdater/tree/linux)
+
+### [Windows](https://github.com/AkytharPandaaa/PandaUpdater/tree/windows)
