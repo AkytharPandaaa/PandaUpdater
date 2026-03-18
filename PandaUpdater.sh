@@ -1,10 +1,10 @@
 #! /bin/sh
 # encoding: utf-8
-# created by IndiePandaaaaa
+# created by AkytharPandaaa
 
 if command -v "pacman" >/dev/null; then
   echo "--- update via pacman"
-  sudo pacman --noconfirm --needed -Syyu
+  sudo pacman --noconfirm -Syyu
   echo ""
 
   unneeded_packages="$(sudo pacman -Qdtq)"
@@ -23,13 +23,13 @@ fi
 
 if command -v "yay" >/dev/null; then
   echo "--- update via yay"
-  yay --sudoloop --noconfirm --needed -Syua --cleanafter
+  yay --sudoloop --noconfirm -Syua --cleanafter
   echo ""
 
   unneeded_packages="$(sudo pacman -Qdtq)"
   if ! test -z "$unneeded_packages"; then
     echo "--- removing unneeded packages via yay"
-    yay --sudoloop --noconfirm -Ycc
+    yay --sudoloop --noconfirm -Yc
     echo ""
   fi
 fi
