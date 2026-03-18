@@ -1,0 +1,10 @@
+[Unit]
+Description=updates all apps on system shutdown
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+ExecStop=/usr/share/pandaupdater/pandaupdater.sh | tee "/var/log/updates_$(date "+%Y%m%d-%H%M%S").log"
+
+[Install]
+WantedBy=multi-user.target
