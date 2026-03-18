@@ -1,5 +1,6 @@
 [Unit]
 Description=updates all apps on system shutdown
+After=network.target
 
 [Service]
 Type=oneshot
