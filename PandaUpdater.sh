@@ -2,12 +2,17 @@
 # encoding: utf-8
 # created by AkytharPandaaa
 
+cwd=$(pwd)
+
 if ! [ "$(git fetch --dry-run --verbose 2>&1 | grep -Po "aktuell(?=\]\s+main)")" = "aktuell" ]; then
   
   echo "--- updating repo"
+  cd "$(echo "$0" | grep -o ".*/")"
   git pull >/dev/null
 
   ./PandaUpdater.sh
+
+  cd "$cwd"
 
 else 
 
@@ -64,6 +69,8 @@ else
     echo ""
   fi
 
+  cd "$cwd"
+  echo "--- updating finished ---"
+
 fi
 
-echo "--- updating finished ---"
