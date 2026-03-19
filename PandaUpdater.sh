@@ -5,72 +5,83 @@
 cwd=$(pwd)
 
 if ! [ "$(git fetch --dry-run --verbose 2>&1 | grep -Po "aktuell(?=\]\s+main)")" = "aktuell" ]; then
-  
-  echo "--- updating repo"
-  cd "$(echo "$0" | grep -o ".*/")"
+
+  echo "--- updating repo" | tee -a "/var/log/updates_$(date \"+%Y%m%d-%H%M%S\").log"
+  cd "$(echo "$0" | grep -o ".*/")" || exit 1
   git pull >/dev/null
 
   ./PandaUpdater.sh
 
-  cd "$cwd"
+  cd "$cwd" || exit 1
 
-else 
+else
 
   if command -v "pacman" >/dev/null; then
-    echo "--- update via pacman"
-    sudo pacman --noconfirm -Syyu
-    echo ""
+
+    echo "--- update via pacman" | tee -a "/var/log/updates_$(date \"+%Y%m%d-%H%M%S\").log"
+    sudo pacman --noconfirm -Syyu | tee -a "/var/log/updates_$(date \"+%Y%m%d-%H%M%S\").log"
+    echo "" | tee -a "/var/log/updates_$(date \"+%Y%m%d-%H%M%S\").log"
 
     unneeded_packages="$(sudo pacman -Qdtq)"
     if not test -z "$unneeded_packages"; then
-      echo "--- removing unneeded packages via pacman"
-      sudo pacman -Qdtq | sudo pacman --noconfirm -Rsu -
-      echo ""
+      echo "--- removing unneeded packages via pacman" | tee -a "/var/log/updates_$(date \"+%Y%m%d-%H%M%S\").log"
+      sudo pacman -Qdtq | sudo pacman --noconfirm -Rsu - | tee -a "/var/log/updates_$(date \"+%Y%m%d-%H%M%S\").log"
+      echo "" | tee -a "/var/log/updates_$(date \"+%Y%m%d-%H%M%S\").log"
 
-      echo "--- cleaning downloaded packages via pacman"
-      sudo pacman -Qdtq | sudo pacman --noconfirm -Sc -
-      echo ""
+      echo "--- cleaning downloaded packages via pacman" | tee -a "/var/log/updates_$(date \"+%Y%m%d-%H%M%S\").log"
+      sudo pacman -Qdtq | sudo pacman --noconfirm -Sc - | tee -a "/var/log/updates_$(date \"+%Y%m%d-%H%M%S\").log"
+      echo "" | tee -a "/var/log/updates_$(date \"+%Y%m%d-%H%M%S\").log"
+
     fi
 
-    sudo paccache -rk 2
+    sudo paccache -rk 2 | tee -a "/var/log/updates_$(date \"+%Y%m%d-%H%M%S\").log"
   fi
 
   if command -v "yay" >/dev/null; then
-    echo "--- update via yay"
-    yay --sudoloop --noconfirm -Syua --cleanafter
-    echo ""
+
+    echo "--- update via yay" | tee -a "/var/log/updates_$(date \"+%Y%m%d-%H%M%S\").log"
+    yay --sudoloop --noconfirm -Syua --cleanafter | tee -a "/var/log/updates_$(date \"+%Y%m%d-%H%M%S\").log"
+    echo "" | tee -a "/var/log/updates_$(date \"+%Y%m%d-%H%M%S\").log"
 
     unneeded_packages="$(sudo pacman -Qdtq)"
     if ! test -z "$unneeded_packages"; then
-      echo "--- removing unneeded packages via yay"
-      yay --sudoloop --noconfirm -Yc
-      echo ""
+      echo "--- removing unneeded packages via yay" | tee -a "/var/log/updates_$(date \"+%Y%m%d-%H%M%S\").log"
+      yay --sudoloop --noconfirm -Yc | tee -a "/var/log/updates_$(date \"+%Y%m%d-%H%M%S\").log"
+      echo "" | tee -a "/var/log/updates_$(date \"+%Y%m%d-%H%M%S\").log"
     fi
   fi
 
   if command -v "apt" >/dev/null; then
-    echo "--- update via APT"
-    sudo apt update
-    sudo apt upgrade -y
-    sudo apt autoremove -y
-    sudo apt autoclean
+
+    echo "--- update via APT" | tee -a "/var/log/updates_$(date \"+%Y%m%d-%H%M%S\").log"
+    sudo apt update | tee -a "/var/log/updates_$(date \"+%Y%m%d-%H%M%S\").log"
+    sudo apt upgrade -y | tee -a "/var/log/updates_$(date \"+%Y%m%d-%H%M%S\").log"
+    sudo apt autoremove -y | tee -a "/var/log/updates_$(date \"+%Y%m%d-%H%M%S\").log"
+    sudo apt autoclean | tee -a "/var/log/updates_$(date \"+%Y%m%d-%H%M%S\").log"
+    echo "" | tee -a "/var/log/updates_$(date \"+%Y%m%d-%H%M%S\").log"
+
   fi
 
   if command -v "apk" >/dev/null; then
+
     echo "--- update via apk"
-    apk update
-    apk upgrade --no-self-upgrade --available --simulate
-    apk upgrade --available
+    apk update | tee -a "/var/log/updates_$(date \"+%Y%m%d-%H%M%S\").log"
+    apk upgrade --no-self-upgrade --available --simulate | tee -a "/var/log/updates_$(date \"+%Y%m%d-%H%M%S\").log"
+    apk upgrade --available | tee -a "/var/log/updates_$(date \"+%Y%m%d-%H%M%S\").log"
+    echo "" | tee -a "/var/log/updates_$(date \"+%Y%m%d-%H%M%S\").log"
+
   fi
 
   if command -v "flatpak" >/dev/null; then
-    echo "--- update via flatpak"
-    sudo flatpak update --system --assumeyes --noninteractive
-    echo ""
+
+    echo "--- update via flatpak" | tee -a "/var/log/updates_$(date \"+%Y%m%d-%H%M%S\").log"
+    sudo flatpak update --system --assumeyes --noninteractive | tee -a "/var/log/updates_$(date \"+%Y%m%d-%H%M%S\").log"
+    echo "" | tee -a "/var/log/updates_$(date \"+%Y%m%d-%H%M%S\").log"
+
   fi
 
-  cd "$cwd"
-  echo "--- updating finished ---"
+  cd "$cwd" || exit 1
+  echo "--- updating finished ---" | tee -a "/var/log/updates_$(date \"+%Y%m%d-%H%M%S\").log"
+  echo "" | tee -a "/var/log/updates_$(date \"+%Y%m%d-%H%M%S\").log"
 
 fi
-
