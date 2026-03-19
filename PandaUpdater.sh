@@ -58,10 +58,10 @@ else
   if command -v "apt" >/dev/null; then
 
     echo "--- update via APT" | tee -a "$log_file"
-    sudo apt update | tee -a "$log_file"
-    sudo apt upgrade -y | tee -a "$log_file"
-    sudo apt autoremove -y | tee -a "$log_file"
-    sudo apt autoclean | tee -a "$log_file"
+    sudo apt-get update | tee -a "$log_file"
+    sudo apt-get upgrade -y | tee -a "$log_file"
+    sudo apt-get autoremove -y | tee -a "$log_file"
+    sudo apt-get autoclean | tee -a "$log_file"
     echo "" | tee -a "$log_file"
 
   fi
