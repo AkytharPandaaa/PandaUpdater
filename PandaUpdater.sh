@@ -8,7 +8,7 @@ log_file="/var/log/updates_$start_timestamp.log"
 
 sudo touch "$log_file"
 
-if ! [ "$(git fetch --dry-run --verbose 2>&1 | grep -Po "aktuell(?=\]\s+main)")" = "aktuell" ]; then
+if ! [ "$(git fetch --dry-run --verbose 2>&1 | grep -Po "[a-z0-9]+(?=\]\s+main)")" = "aktuell" ]; then
 
   echo "--- updating repo" | tee -a "$log_file"
   cd "$(echo "$0" | grep -o ".*/")" || exit 1
