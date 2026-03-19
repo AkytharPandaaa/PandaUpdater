@@ -79,7 +79,8 @@ else
   if command -v "flatpak" >/dev/null; then
 
     echo "--- update via flatpak" | tee -a "$log_file"
-    sudo flatpak update --system --assumeyes --noninteractive | tee -a "$log_file"
+    sudo flatpak remote-ls --updates | tee -a "$log_file"
+    sudo flatpak update --assumeyes --noninteractive | tee -a "$log_file"
     echo "" | tee -a "$log_file"
 
   fi
