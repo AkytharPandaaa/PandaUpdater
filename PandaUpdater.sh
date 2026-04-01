@@ -23,17 +23,17 @@ else
   if command -v "pacman" >/dev/null; then
 
     echo "--- update via pacman" | sudo tee -a "$log_file"
-    sudo pacman --noconfirm -Syyu | sudo tee -a "$log_file"
+    sudo pacman --noconfirm -Syyu --logfile "$log_file"
     echo "" | sudo tee -a "$log_file"
 
     unneeded_packages="$(sudo pacman -Qdtq)"
     if not test -z "$unneeded_packages"; then
       echo "--- removing unneeded packages via pacman" | sudo tee -a "$log_file"
-      sudo pacman -Qdtq | sudo pacman --noconfirm -Rsu - | sudo tee -a "$log_file"
+      sudo pacman -Qdtq | sudo pacman --noconfirm --logfile "$log_file" -Rsu -
       echo "" | sudo tee -a "$log_file"
 
       echo "--- cleaning downloaded packages via pacman" | sudo tee -a "$log_file"
-      sudo pacman -Qdtq | sudo pacman --noconfirm -Sc - | sudo tee -a "$log_file"
+      sudo pacman -Qdtq | sudo pacman --noconfirm --logfile "$log_file" -Sc - | sudo tee -a "$log_file"
       echo "" | sudo tee -a "$log_file"
 
     fi
