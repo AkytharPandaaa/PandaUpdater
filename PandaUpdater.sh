@@ -8,7 +8,33 @@ log_file="/var/log/updates_$start_timestamp.log"
 
 sudo touch "$log_file"
 
-if ! [ "$(git fetch --dry-run --verbose 2>&1 | grep -Po "[a-z0-9]+(?=\]\s+main)")" = "aktuell" ]; then
+# check for macos
+if [ "$(uname)" = "Darwin" ]; then
+
+  # check if ggrep is available
+  if ! command -v "ggrep" >/dev/null; then
+    echo "install 'grep' with 'brew install grep'"
+    exit 1
+  fi
+
+  # check for state on macos
+  git_state="$(git fetch --dry-run --verbose 2>&1 | ggrep -Po "[a-z0-9 ]+(?=\]\s+main)")"
+
+  # fix for language issues
+  if [ "$git_state" = "up to date" ]; then
+    git_state="aktuell"
+  fi
+
+else
+
+  # check for state on linux
+  git_state="$(git fetch --dry-run --verbose 2>&1 | grep -Po "[a-z0-9]+(?=\]\s+main)")"
+
+fi
+
+echo "$git_state"
+
+if ! [ "$git_state" = "aktuell" ]; then
 
   echo "--- updating repo" | sudo tee -a "$log_file"
   cd "$(echo "$0" | grep -o ".*/")" || exit 1
@@ -87,13 +113,15 @@ else
 
   if command -v "brew" >/dev/null; then
 
-    echo "--- update via brew"
+    echo "--- update via Homebrew"
     brew update
     brew upgrade
+    echo ""
 
-    echo "--- removing unneeded packages via brew"
+    echo "--- removing unneeded packages via Homebrew"
     brew autoremove
     brew cleanup
+    echo ""
   fi
 
   cd "$cwd" || exit 1
