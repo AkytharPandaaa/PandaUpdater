@@ -85,6 +85,17 @@ else
 
   fi
 
+  if command -v "brew" >/dev/null; then
+
+    echo "--- update via brew"
+    brew update
+    brew upgrade
+
+    echo "--- removing unneeded packages via brew"
+    brew autoremove
+    brew cleanup
+  fi
+
   cd "$cwd" || exit 1
   echo "--- updating finished ---" | sudo tee -a "$log_file"
   echo "" | sudo tee -a "$log_file"
