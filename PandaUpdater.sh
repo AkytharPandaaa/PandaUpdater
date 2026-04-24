@@ -23,34 +23,41 @@ else
   if command -v "pacman" >/dev/null; then
 
     echo "--- update via pacman" | sudo tee -a "$log_file"
-    sudo pacman --noconfirm -Syyu --logfile "$log_file"
+    sudo pacman -Syy
+    pacman -Qu | sudo tee -a "$log_file"
+    sudo pacman --noconfirm -Syyu
     echo "" | sudo tee -a "$log_file"
 
     unneeded_packages="$(sudo pacman -Qdtq)"
     if not test -z "$unneeded_packages"; then
       echo "--- removing unneeded packages via pacman" | sudo tee -a "$log_file"
-      sudo pacman -Qdtq | sudo pacman --noconfirm --logfile "$log_file" -Rsu -
+      echo "$unneeded_packages" | sudo tee -a "$log_file"
+      echo "$unneeded_packages" | sudo pacman --noconfirm -Rsu -
       echo "" | sudo tee -a "$log_file"
 
       echo "--- cleaning downloaded packages via pacman" | sudo tee -a "$log_file"
-      sudo pacman -Qdtq | sudo pacman --noconfirm --logfile "$log_file" -Sc - | sudo tee -a "$log_file"
+      sudo pacman -Qdtq | sudo pacman --noconfirm -Sc -
       echo "" | sudo tee -a "$log_file"
-
     fi
 
-    sudo paccache -rk 2 | sudo tee -a "$log_file"
+    echo "--- pruning cached packages via paccache" | sudo tee -a "$log_file"
+    sudo paccache -k 2 --dryrun | sudo tee -a "$log_file"
+    sudo paccache -rk 2
   fi
 
   if command -v "yay" >/dev/null; then
 
     echo "--- update via yay" | sudo tee -a "$log_file"
-    yay --sudoloop --noconfirm -Syua --cleanafter | sudo tee -a "$log_file"
+    yay --sudoloop -Syya
+    yay --sudoloop -Qua | sudo tee -a "$log_file"
+    yay --sudoloop --noconfirm -Syua --cleanafter
     echo "" | sudo tee -a "$log_file"
 
-    unneeded_packages="$(sudo pacman -Qdtq)"
+    unneeded_packages="$(yay -Qdtqa)"
     if ! test -z "$unneeded_packages"; then
       echo "--- removing unneeded packages via yay" | sudo tee -a "$log_file"
-      yay --sudoloop --noconfirm -Yc | sudo tee -a "$log_file"
+      echo "$unneeded_packages" | sudo tee -a "$log_file"
+      yay --sudoloop --noconfirm -Yc
       echo "" | sudo tee -a "$log_file"
     fi
   fi
@@ -80,7 +87,7 @@ else
 
     echo "--- update via flatpak" | sudo tee -a "$log_file"
     sudo flatpak remote-ls --updates | sudo tee -a "$log_file"
-    sudo flatpak update --assumeyes --noninteractive | sudo tee -a "$log_file"
+    sudo flatpak update --assumeyes --noninteractive
     echo "" | sudo tee -a "$log_file"
 
   fi
