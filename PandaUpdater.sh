@@ -49,7 +49,7 @@ else
     echo "--- update via pacman" | sudo tee -a "$log_file"
     sudo pacman -Syy
     pacman -Qu | sudo tee -a "$log_file"
-    sudo pacman --noconfirm -Syyu
+    sudo pacman --noconfirm -Syu
     echo "" | sudo tee -a "$log_file"
 
     unneeded_packages="$(sudo pacman -Qdtq)"
