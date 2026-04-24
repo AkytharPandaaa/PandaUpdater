@@ -2,12 +2,12 @@
 
 Simple script collection to update software using the operating system services.
 
-## Supported OSes
+## Supported Operating Systems
 
-- [Linux - PandaUpdater.sh](https://github.com/AkytharPandaaa/PandaUpdater/blob/main/PandaUpdater.sh)
-- [Windows - PandaUpdater.bat](https://github.com/AkytharPandaaa/PandaUpdater/blob/main/PandaUpdater.bat)
+- [Linux & macOS – PandaUpdater.sh](https://github.com/AkytharPandaaa/PandaUpdater/blob/main/PandaUpdater.sh)
+- [Windows – PandaUpdater.bat](https://github.com/AkytharPandaaa/PandaUpdater/blob/main/PandaUpdater.bat)
 
-## Previous branches
+## Previous Branches
 
 > The branches stay for compatibility reasons
 
