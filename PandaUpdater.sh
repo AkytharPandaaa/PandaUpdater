@@ -32,8 +32,6 @@ else
 
 fi
 
-echo "$git_state"
-
 if ! [ "$git_state" = "aktuell" ]; then
 
   echo "--- updating repo" | sudo tee -a "$log_file"
