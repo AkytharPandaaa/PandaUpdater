@@ -61,6 +61,7 @@ else
 
       echo "--- cleaning downloaded packages via pacman" | sudo tee -a "$log_file"
       sudo pacman -Qdtq | sudo pacman --noconfirm -Sc -
+      sudo rm -rv /var/cache/pacman/pkg/download-*
       echo "" | sudo tee -a "$log_file"
     fi
 
