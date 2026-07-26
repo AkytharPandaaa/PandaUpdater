@@ -130,7 +130,6 @@ else
   fi
 
   cd "$cwd" || exit 1
-  echo "--- updating finished ---" | sudo tee -a "$log_file"
-  echo "" | sudo tee -a "$log_file"
+  echo "--- updating finished ---"
 
 fi
