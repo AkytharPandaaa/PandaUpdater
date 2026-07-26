@@ -122,11 +122,10 @@ else
     echo "--- update via Homebrew"
     brew update
     brew upgrade
-    echo ""
-
-    echo "--- removing unneeded packages via Homebrew"
     brew autoremove
-    brew cleanup
+    brew cleanup --prune=all --dry-run
+    sleep 2
+    brew cleanup --prune=all
     echo ""
   fi
 
